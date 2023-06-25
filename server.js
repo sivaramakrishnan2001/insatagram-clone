@@ -95,50 +95,56 @@ app.use(ReelsRouter);
 app.use(SongsRouter);
 app.use(ChatRouter);
 app.use(MessageRouter);
-app.use(StickyNotesRouter);
+// app.use(StickyNotesRouter);
 app.use(StoryRouter);
 app.use(SaveRouter);
 app.use(LikeRouter);
 
+
+app.listen(Keys.PORT ? Keys.PORT : 2000, () => {
+    console.log(`server started http://localhost:${2000}`);
+});
+
+
 // ==================================================================
 // socket
 
-const httpServer = createServer(app);
+// const httpServer = createServer(app);
 
-const io = new Server(httpServer, {
-    pingTimeout: 60000,
-    cors: {
-        origin: ["http://localhost:3000"]
-    }
-});
+// const io = new Server(httpServer, {
+//     pingTimeout: 60000,
+//     cors: {
+//         origin: ["http://localhost:3000"]
+//     }
+// });
 
-io.on("connection", (socket) => {
+// io.on("connection", (socket) => {
 
-    socket.on('send-message', (message) => {
-        socket.broadcast.emit('message-from-server', message);
-    });
+//     socket.on('send-message', (message) => {
+//         socket.broadcast.emit('message-from-server', message);
+//     });
 
-    socket.on('typing-started', () => {
-        socket.broadcast.emit('typing-started-from-server');
-    });
+//     socket.on('typing-started', () => {
+//         socket.broadcast.emit('typing-started-from-server');
+//     });
 
-    socket.on('typing-stoped', () => {
-        socket.broadcast.emit('typing-stoped-from-server');
-    });
+//     socket.on('typing-stoped', () => {
+//         socket.broadcast.emit('typing-stoped-from-server');
+//     });
 
-    socket.on("disconnect", () => {
-        console.log("User left...");
-    });
-});
+//     socket.on("disconnect", () => {
+//         console.log("User left...");
+//     });
+// });
 
 
-// ==================================================================
-// server
+// // ==================================================================
+// // server
 
-httpServer.listen(Keys.PORT ? Keys.PORT : 2000, () => {
-    console.log(`server started http://localhost:${2000}`);
+// httpServer.listen(Keys.PORT ? Keys.PORT : 2000, () => {
+//     console.log(`server started http://localhost:${2000}`);
 
-});
+// });
 
 // app.listen(Keys.PORT ? Keys.PORT : 2000, () => {
 //     console.log(`server started http://localhost:${2000}`);
