@@ -96,7 +96,7 @@ app.use(ReelsRouter);
 app.use(SongsRouter);
 app.use(ChatRouter);
 app.use(MessageRouter);
-app.use(StickyNotesRouter);
+// app.use(StickyNotesRouter);
 app.use(StoryRouter);
 app.use(SaveRouter);
 app.use(LikeRouter);

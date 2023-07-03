@@ -1,6 +1,6 @@
 import express from "express";
-import { CreateStickyNotes, DeleteAllStickyNotes, DeleteStickyNotes, GetAllStickyNotes, GetStickyNotes } from "../../controllers/stickynotes/StickyNotes.js";
 import { VerifyToken } from "../../config/VerifyToken.js";
+import { CreateStickyNotes, DeleteAllStickyNotes, DeleteStickyNotes, GetAllStickyNotes, GetStickyNotes } from "../../controllers/stickynotes/StickyNotes.js";
 
 
 
