@@ -104,7 +104,7 @@ app.use(LikeRouter);
 
 app.listen(process.env.PORT ? process.env.PORT : 2000, () => {
     DBConnection();
-    console.log(`server started http://localhost:${2000}`);
+    console.log('server started http://localhost:2000');
 });
 
 
