@@ -13,7 +13,6 @@ import { SongsRouter } from "./routes/songsroute/Songs.js";
 import { ChatRouter } from "./routes/chatroute/ChatRoute.js";
 import { MessageRouter } from "./routes/messageroute/MessageRoute.js";
 import { ReelsRouter } from "./routes/reelsroute/ReelsRoute.js";
-import { StickyNotesRouter } from "./routes/stickynotesroute/stickyNotesRoute.js";
 import { StickyNotes } from "./models/stickynotes/StickyNotes.js";
 import { OldDateTimeConvert } from "./common/common.js";
 import { scheduleJob } from "node-schedule";
