@@ -45,6 +45,6 @@ export const OldDateTimeConvert = (datetime) => {
     const hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
-    console.log(`Years: ${years}, Months: ${months}, Weeks: ${weeks}, Days: ${days}, Hours: ${hours}, Minutes: ${minutes}`);
+    // console.log(`Years: ${years}, Months: ${months}, Weeks: ${weeks}, Days: ${days}, Hours: ${hours}, Minutes: ${minutes}`);
     return { years, months, weeks, days, hours, minutes, seconds }
 }

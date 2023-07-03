@@ -12,10 +12,11 @@ const postSchema = new Schema({
     },
 
     photo: String,
-
-    song: {},
-
+    video: String,
+    type: String,
     filename: String,
+    
+    song: {},
 
     location: String,
 

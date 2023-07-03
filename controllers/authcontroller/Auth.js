@@ -1,7 +1,6 @@
 import { User } from "../../models/User.js";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken"
-import { Keys } from "../../config/Keys.js";
+import jwt from "jsonwebtoken";
 
 
 
@@ -10,7 +9,7 @@ export const SignUp = async (req, res) => {
         if (!req.body.name || !req.body.email || !req.body.password) {
             return res.send("fill all fiels")
         }
-        
+
         const exists = await User.findOne({ email: req.body.email });
 
         if (exists) {
@@ -32,15 +31,16 @@ export const SignUp = async (req, res) => {
 }
 
 export const Login = async (req, res) => {
-
+console.log("login",req.body);
     try {
         const user = await User.findOne({ email: req.body.email });
         const password = await bcrypt.compare(req.body.password, user.password);
 
-        if (!password) return res.status(400).send("Invalid Email or password");
+        if (!user) res.status(400).send("Invalid Email  req.body.email");
+        if (!password) res.status(400).send("Invalid Email or password");
 
-        const token = jwt.sign({ ...user }, Keys.TOKEN_KEY);
-        res.status(200).send({status: true, data: { token: token,user: user}});
+        const token =  jwt.sign({ ...user }, process.env.TOKEN_KEY);
+        res.status(200).send({ status: true, data: { token: token, user: user } });
 
     } catch (error) {
         res.status(500).send("internal error login");

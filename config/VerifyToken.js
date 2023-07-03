@@ -1,7 +1,6 @@
 
 import jwt from "jsonwebtoken";
 import { User } from "../models/User.js";
-import { Keys } from "./Keys.js";
 
 export const VerifyToken = async (req, res, next) => {
 
@@ -13,7 +12,7 @@ export const VerifyToken = async (req, res, next) => {
 
     try {
 
-        const decoded = jwt.verify(token, Keys.TOKEN_KEY);
+        const decoded = jwt.verify(token, process.env.TOKEN_KEY);
 
         const { _doc } = decoded;
         const userdata = await User.findById(_doc._id);

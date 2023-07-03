@@ -3,13 +3,16 @@ import { POST } from "../../models/Post.js";
 
 
 export const CreatePost = async (req, res) => {
-    const { photo, body, title, song, location } = req.body;
+    const { photo, body, title, song, location, type, filename, video } = req.body;
 
     try {
         const post = await POST.create({
             title: title,
             body: body,
             photo: photo,
+            video: video,
+            filename: filename,
+            type: type,
             song: song,
             location: location,
             save: [],
@@ -95,10 +98,8 @@ export const UnLike = async (req, res) => {
 export const DeletePost = async (req, res) => {
     try {
         const post = await POST.findOne({ _id: req.body.postid }).populate("postedBy", "_id ");
-        if (post.postedBy._id === req.user._id) {
-            const deletepost = await POST.findByIdAndDelete({ _id: req.body.postid });
-            res.status(200).json({ status: true, message: "your post successfully deleted.", data: deletepost })
-        }
+        const deletepost = await POST.findByIdAndDelete({ _id: req.body.postid });
+        res.status(200).json({ status: true, message: "your post successfully deleted.", data: deletepost })
     } catch (err) {
         res.status(200).send({ status: false, message: err });
     }
@@ -106,13 +107,12 @@ export const DeletePost = async (req, res) => {
 
 export const Comment = async (req, res) => {
     try {
-        const data = {
-            text: req.body.text,
-            postedBy: req.user._id
-        }
-        const comment = await POST.findByIdAndUpdate({ _id: req.body.postid }, {
+        const { postid,text } = req.body;
+        const data = { text: text, postedBy: req.user._id };
+        const comment = await POST.findByIdAndUpdate({ _id: postid }, {
             $push: { comments: data }
-        }, { new: true }).populate("comments.postedBy", "_id name");
+        }, { new: true }).populate("comments.postedBy", "_id name profile followers follwing");
+        console.log("comment", comment);
 
         res.status(200).json({ status: true, message: "successfully updated", data: comment })
     } catch (err) {

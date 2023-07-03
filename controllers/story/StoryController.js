@@ -5,7 +5,6 @@ import { STORY } from "../../models/story/Story.js";
 export const CreateStory = async (req, res) => {
     try {
         const { url, song, location, type, filename } = req.body;
-        console.log("req.body", { url, song, location, type, filename });
         const story = await STORY.create({
             url: url,
             song: song,
@@ -66,7 +65,9 @@ export const UnlikeStory = async (req, res) => {
 
 
 export const GetAllStorys = async (req, res) => {
+    console.log("req", req.user._id);
     try {
+        let userid = JSON.stringify(req.user._id) || "";
         let storys = await STORY.find()
             .populate("song", "_id userid name song img desc movie")
             .populate("viewers", "_id name email profile followers following profile")
@@ -87,7 +88,7 @@ export const GetAllStorys = async (req, res) => {
             i.time = OldDateTimeConvert(i.updatedAt)
             return i;
         });
-        console.log("storys", storys);
+        // console.log("storys", storys);
 
         for (let index = 0; index < storys.length; index++) {
             const story = storys[index];
@@ -104,7 +105,6 @@ export const GetAllStorys = async (req, res) => {
 
         for (let i = 0; i < storys.length; i++) {
             const duplicatestory1 = storys[i];
-
             for (let ii = 0; ii < ids.length; ii++) {
                 const id = ids[ii];
                 const userstory = userstorys[ii];
@@ -115,9 +115,22 @@ export const GetAllStorys = async (req, res) => {
             }
         }
 
+        let first_user_story = [];
+        let user = {};
+
+        for (let index = 0; index < userstorys.length; index++) {
+            const element = userstorys[index];
+            if (userid === JSON.stringify(element.user._id)) {
+                user = element;
+            } else {
+                first_user_story.push(element);
+            }
+        }
+
+        first_user_story.unshift(user)
 
 
-        res.status(200).json({ status: true, data: userstorys });
+        res.status(200).json({ status: true, data: first_user_story, dummy: first_user_story });
     } catch (err) {
         res.status(200).json({ status: false, message: err })
     }

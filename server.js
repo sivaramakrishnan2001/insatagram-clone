@@ -4,8 +4,8 @@ import { createServer } from "http";
 import bodyParser from "body-parser";
 import express from "express";
 import cors from "cors";
+import dotenv from "dotenv";
 import { Auth } from "./routes/auth/Auth.js";
-import { Keys } from "./config/Keys.js";
 import { PostRouter } from "./routes/postroute/post.js";
 import { DBConnection } from "./config/DBConnection.js";
 import { UserRouter } from "./routes/userroute/User.js";
@@ -23,12 +23,13 @@ import { LikeRouter } from "./routes/likeroute/LikeRoute.js";
 import { STORY } from "./models/story/Story.js";
 
 
+dotenv.config();
 const app = express();
 
 // ==================================================================
 // database connection
 
-DBConnection();
+
 
 // ==================================================================
 // middleware
@@ -42,10 +43,10 @@ const eighthours = "*/1 * * * * *";
 
 export const data = scheduleJob(eighthours, () => {
     findStickyNotesTime();
-    findStorysTime();
+    // findStorysTime();
 });
 
-const findStorysTime= async()=>{
+const findStorysTime = async () => {
     const ids = [];
     const story = await STORY.find()
     for (let index = 0; index < story.length; index++) {
@@ -95,13 +96,14 @@ app.use(ReelsRouter);
 app.use(SongsRouter);
 app.use(ChatRouter);
 app.use(MessageRouter);
-// app.use(StickyNotesRouter);
+app.use(StickyNotesRouter);
 app.use(StoryRouter);
 app.use(SaveRouter);
 app.use(LikeRouter);
 
 
-app.listen(Keys.PORT ? Keys.PORT : 2000, () => {
+app.listen(process.env.PORT ? process.env.PORT : 2000, () => {
+    DBConnection();
     console.log(`server started http://localhost:${2000}`);
 });
 
@@ -141,11 +143,11 @@ app.listen(Keys.PORT ? Keys.PORT : 2000, () => {
 // // ==================================================================
 // // server
 
-// httpServer.listen(Keys.PORT ? Keys.PORT : 2000, () => {
+// httpServer.listen(process.env.PORT ? process.env.PORT : 2000, () => {
 //     console.log(`server started http://localhost:${2000}`);
 
 // });
 
-// app.listen(Keys.PORT ? Keys.PORT : 2000, () => {
+// app.listen(process.env.PORT ? process.env.PORT: 2000, () => {
 //     console.log(`server started http://localhost:${2000}`);
 // });
