@@ -65,7 +65,6 @@ export const UnlikeStory = async (req, res) => {
 
 
 export const GetAllStorys = async (req, res) => {
-    console.log("req", req.user._id);
     try {
         let userid = JSON.stringify(req.user._id) || "";
         let list = await STORY.find()
@@ -80,14 +79,15 @@ export const GetAllStorys = async (req, res) => {
                 }
             });
         let storys = [];
+
         for (let index = 0; index < list.length; index++) {
-            const element = array[index];
-            const datetime = OldDateTimeConvert(element.updatedAt);
-            if (datetime.days <= 1) {
+            const datetime = OldDateTimeConvert(list[index].updatedAt);
+            console.log(list[index]);
+            if (datetime.days < 1) {
                 storys.push(element);
             }
         }
-
+        storys = storys.length != 0 ? storys : list;
         const ids = [];
         const userstorys = new Array();
 
@@ -125,7 +125,6 @@ export const GetAllStorys = async (req, res) => {
 
         let first_user_story = [];
         let user = {};
-
         for (let index = 0; index < userstorys.length; index++) {
             const element = userstorys[index];
             if (userid === JSON.stringify(element.user._id)) {
@@ -135,7 +134,10 @@ export const GetAllStorys = async (req, res) => {
             }
         }
 
-        first_user_story.unshift(user)
+        if (user && user._id) {
+            console.log("user", user);
+            first_user_story.unshift(user);
+        }
 
 
         res.status(200).json({ status: true, data: first_user_story, dummy: first_user_story });
