@@ -128,6 +128,8 @@ export const Save = async (req, res) => {
         const post = await POST.findByIdAndUpdate({ _id: req.body.postId },
             { $addToSet: { save: req.user._id } });
 
+            console.log("postsave",post);
+
         if (post) {
             res.status(200).json({ status: true, data: post, message: "successfully saved" });
         }
@@ -143,6 +145,7 @@ export const UnSave = async (req, res) => {
             { $pull: { save: req.user._id } }, {
             new: true
         });
+        console.log("post",post);
         if (post) {
             res.status(200).json({ status: true, data: { post } });
         } else {

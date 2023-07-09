@@ -40,7 +40,7 @@ app.use(cors());
 const eighthours = "*/1 * * * * *";
 
 export const data = scheduleJob(eighthours, () => {
-    findStickyNotesTime();
+    // findStickyNotesTime();
     // findStorysTime();
 });
 

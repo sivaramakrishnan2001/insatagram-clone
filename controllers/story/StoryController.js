@@ -68,7 +68,7 @@ export const GetAllStorys = async (req, res) => {
     console.log("req", req.user._id);
     try {
         let userid = JSON.stringify(req.user._id) || "";
-        let storys = await STORY.find()
+        let list = await STORY.find()
             .populate("song", "_id userid name song img desc movie")
             .populate("viewers", "_id name email profile followers following profile")
             .populate({
@@ -79,6 +79,14 @@ export const GetAllStorys = async (req, res) => {
                     select: "-password -followers -following -subscribers"
                 }
             });
+        let storys = [];
+        for (let index = 0; index < list.length; index++) {
+            const element = array[index];
+            const datetime = OldDateTimeConvert(element.updatedAt);
+            if (datetime.days <= 1) {
+                storys.push(element);
+            }
+        }
 
         const ids = [];
         const userstorys = new Array();
