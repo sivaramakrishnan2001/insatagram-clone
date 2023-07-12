@@ -16,10 +16,10 @@ export const CreateStickyNotes = async (req, res) => {
                 postedBy: req.user
             });
             if (post) {
-                res.status(200).send({ status: true, data: post });
+                res.status(200).json({ status: true, data: post });
             }
         } else {
-            res.status(200).send({ status: true, data: stickynotes });
+            res.status(200).json({ status: true, data: stickynotes });
         }
 
     } catch (err) {
@@ -72,9 +72,16 @@ export const DeleteAllStickyNotes = async (req, res) => {
 
 
 export const DeleteStickyNotes = async (req, res) => {
+    
     try {
-        const stickynotes = await StickyNotes.findByIdAndDelete({ "postedBy": req.params.id })
-        res.status(200).json({ status: true, data: stickynotes })
+        console.log("stickynotes-----------", req.params.id);
+        let stickynotes = await StickyNotes.findByIdAndDelete({ _id: req.params.id }).count();
+        console.log("stickynotes1111-----------",stickynotes);
+        if (stickynotes) {
+            return res.status(200).json({ status: true, data: stickynotes });
+        }
+        return res.status(200).json({ status: false, data: {} });
+
     } catch (err) {
         res.status(200).json({ status: false, message: err })
     }

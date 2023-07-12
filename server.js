@@ -1,10 +1,10 @@
-
 import { Server } from "socket.io";
 import { createServer } from "http";
 import bodyParser from "body-parser";
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+dotenv.config();
 import { Auth } from "./routes/auth/Auth.js";
 import { PostRouter } from "./routes/postroute/post.js";
 import { DBConnection } from "./config/DBConnection.js";
@@ -13,15 +13,16 @@ import { SongsRouter } from "./routes/songsroute/Songs.js";
 import { ChatRouter } from "./routes/chatroute/ChatRoute.js";
 import { ReelsRouter } from "./routes/reelsroute/ReelsRoute.js";
 import { StickyNotes } from "./models/stickynotes/StickyNotes.js";
+import {StickyNotesRouter} from './routes/stickynotesroute/StickyNotesRoute.js';
 import { OldDateTimeConvert } from "./common/common.js";
-import { scheduleJob } from "node-schedule";
+// import { scheduleJob } from "node-schedule";
 import { StoryRouter } from "./routes/storyroute/StoryRoute.js";
 import { SaveRouter } from "./routes/saveroute/SaveRoute.js";
 import { LikeRouter } from "./routes/likeroute/LikeRoute.js";
 import { STORY } from "./models/story/Story.js";
 
 
-dotenv.config();
+
 const app = express();
 
 // ==================================================================
@@ -32,17 +33,18 @@ const app = express();
 // ==================================================================
 // middleware
 app.use(express.json());
-app.use(bodyParser.json({ limit: "30mb", extended: true }));
-app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
+app.use(bodyParser.json({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
+DBConnection();
 
 const eighthours = "*/1 * * * * *";
 
-export const data = scheduleJob(eighthours, () => {
-    // findStickyNotesTime();
-    // findStorysTime();
-});
+// export const data = scheduleJob(eighthours, () => {
+//     // findStickyNotesTime();
+//     // findStorysTime();
+// });
 
 const findStorysTime = async () => {
     const ids = [];
@@ -94,14 +96,13 @@ app.use(ReelsRouter);
 app.use(SongsRouter);
 app.use(ChatRouter);
 // app.use(MessageRouter);
-// app.use(StickyNotesRouter);
+app.use(StickyNotesRouter);
 app.use(StoryRouter);
 app.use(SaveRouter);
 app.use(LikeRouter);
 
 
 app.listen(process.env.PORT ? process.env.PORT : 2000, () => {
-    DBConnection();
     console.log('server started http://localhost:2000');
 });
 

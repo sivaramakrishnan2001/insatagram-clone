@@ -71,11 +71,10 @@ export const GetUserPost = async (req, res) => {
 export const Like = async (req, res) => {
 
     try {
-        const { password, ...others } = req.user._doc;
         const post = await POST.findByIdAndUpdate({ _id: req.body.postid },
-            { $addToSet: { likes: others } });
+            { $addToSet: { likes: req.user } });
 
-        res.status(200).json({ status: true, data: post, test: others })
+        res.status(200).json({ status: true, data: post, test: req.user })
     } catch (err) {
         res.status(200).send({ status: false, message: err });
     }
@@ -106,15 +105,25 @@ export const DeletePost = async (req, res) => {
 }
 
 export const Comment = async (req, res) => {
-    try {
-        const { postid,text } = req.body;
-        const data = { text: text, postedBy: req.user._id };
-        const comment = await POST.findByIdAndUpdate({ _id: postid }, {
-            $push: { comments: data }
-        }, { new: true }).populate("comments.postedBy", "_id name profile followers follwing");
-        console.log("comment", comment);
 
-        res.status(200).json({ status: true, message: "successfully updated", data: comment })
+    const { postid, text } = req.body;
+    const data = { text: text, postedBy: req.user._id };
+    try {
+
+        console.log("comment1");
+
+        const comment = await POST.findByIdAndUpdate(
+            { _id: postid },
+            { $push: { comments: data } },
+            { new: true, upsert: true }
+        )
+
+        console.log("comment", comment);
+        if (comment) {
+            res.status(200).json({ status: true, message: "successfully updated", data: comment })
+        } else {
+            res.status(200).json({ status: false, message: "error--", data: comment })
+        }
     } catch (err) {
         res.status(200).send({ status: false, message: err });
     }
@@ -128,7 +137,7 @@ export const Save = async (req, res) => {
         const post = await POST.findByIdAndUpdate({ _id: req.body.postId },
             { $addToSet: { save: req.user._id } });
 
-            console.log("postsave",post);
+        console.log("postsave", post);
 
         if (post) {
             res.status(200).json({ status: true, data: post, message: "successfully saved" });
@@ -145,7 +154,7 @@ export const UnSave = async (req, res) => {
             { $pull: { save: req.user._id } }, {
             new: true
         });
-        console.log("post",post);
+        console.log("post", post);
         if (post) {
             res.status(200).json({ status: true, data: { post } });
         } else {

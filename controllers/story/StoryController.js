@@ -80,22 +80,22 @@ export const GetAllStorys = async (req, res) => {
             });
         let storys = [];
 
-        for (let index = 0; index < list.length; index++) {
-            const datetime = OldDateTimeConvert(list[index].updatedAt);
-            console.log(list[index]);
-            if (datetime.days < 1) {
-                storys.push(element);
-            }
-        }
+        // for (let index = 0; index < list.length; index++) {
+        //     const datetime = OldDateTimeConvert(list[index].updatedAt);
+        //     console.log(list[index]);
+        //     // if (datetime.days < 1) {
+        //         storys.push(element);
+        //     // }
+        // }
         storys = storys.length != 0 ? storys : list;
         const ids = [];
         const userstorys = new Array();
 
-        storys.map((i) => {
-            i.isplay = false
-            i.time = OldDateTimeConvert(i.updatedAt)
-            return i;
-        });
+        // storys.map((i) => {
+        //     i.isplay = false
+        //     i.time = OldDateTimeConvert(i.updatedAt)
+        //     return i;
+        // });
         // console.log("storys", storys);
 
         for (let index = 0; index < storys.length; index++) {

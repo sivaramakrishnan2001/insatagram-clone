@@ -16,7 +16,6 @@ export const VerifyToken = async (req, res, next) => {
 
         const { _doc } = decoded;
         const userdata = await User.findById(_doc._id);
-
         req.user = userdata;
 
     } catch (err) {
