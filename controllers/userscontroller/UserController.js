@@ -68,12 +68,17 @@ export const RemoveFollower = async (req, res) => {
 }
 
 export const GetProfile = async (req, res) => {
+    console.log("req.params.id)");
     try {
-        const profile = await User.findOne({ _id: req.user._id })
-            .populate("followers", "_id name email profile followers following profile account category")
-            .populate("following", "_id name email profile followers following profile account category")
-            .sort('-createdAt');
-        res.status(200).json({ status: true, data: { profile } })
+        if (req.params.id) {
+            const profile = await User.findOne({ _id: req.params.id })
+                .populate("followers", "_id name email profile followers following profile account category")
+                .populate("following", "_id name email profile followers following profile account category")
+                .sort('-createdAt');
+            res.status(200).json({ status: true, data: { profile } });
+        }else{
+            res.status(200).json({ status: false, message: "id value empty check user id" });
+        }
     } catch (err) {
         res.status(500).json({ status: false, message: "network error" });
     }

@@ -34,11 +34,11 @@ const app = express();
 
 // ==================================================================
 // middleware
+app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
-app.use(cors());
 DBConnection();
 
 const eighthours = "*/1 * * * * *";
@@ -95,7 +95,7 @@ const swaggerDefinition = {
         version: '1.0.0',
         description: '',
     },
-    host: `${process.env.HOST ? process.env.HOST : "localhost:" + process.env.PORT ? process.env.PORT : 2000}`,
+    host: `localhost:${process.env.PORT ? process.env.PORT : 2000}`,
     basePath: '/',
     // securityDefinitions: {
     //     // bearerAuth: {
