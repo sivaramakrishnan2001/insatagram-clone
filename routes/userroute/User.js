@@ -6,6 +6,134 @@ export const UserRouter = express.Router();
 // =====================================================================
 // =====================================================================
 
+/**
+ * @swagger
+ * /users:
+ *  get:
+ *      description: Create new user
+ *      consumes:
+ *          - application/json
+ *      responses:
+ *          201:
+ *              description: get all users
+ */
+
+// =====================================================================
+
+/**
+ * 
+ * @swagger
+ * /users/{userId}:
+ *  get:
+ *      description: get user
+ *      parameters:
+ *        - in: path
+ *          name: userId
+ *          schema:
+ *              type: string
+ *          required: true
+ *          description: string id of user to delete
+ *      responses:
+ *          200:
+ *              description: get user details
+ */
+
+// =====================================================================
+// /user/follow
+
+
+
+/**
+ * @swagger
+ * /user/follow:
+ *   put:
+ *     description: Update resource
+ *     parameters:
+ *       - in: header
+ *         name: Authorization
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: API authorization token
+ *       - in: body
+ *         name: body
+ *         schema:
+ *           type: object
+ *           properties:
+ *             id:
+ *               type: string
+ *         required: true
+ *         description: Request body parameters
+ *     responses:
+ *       200:
+ *         description: Success message
+ *       400:
+ *         description: Error message
+ */
+
+// =====================================================================
+
+/**
+ * @swagger
+ * /user/unfollow:
+ *   put:
+ *     description: Update resource
+ *     parameters:
+ *       - in: header
+ *         name: Authorization
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: API authorization token
+ *       - in: body
+ *         name: body
+ *         schema:
+ *           type: object
+ *           properties:
+ *             id:
+ *               type: string
+ *         required: true
+ *         description: Request body parameters
+ *     responses:
+ *       200:
+ *         description: Success message
+ *       400:
+ *         description: Error message
+ */
+
+
+// =====================================================================
+
+/**
+ * @swagger
+ * /user/removefollower:
+ *   put:
+ *     description: Update resource
+ *     parameters:
+ *       - in: header
+ *         name: Authorization
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: API authorization token
+ *       - in: body
+ *         name: body
+ *         schema:
+ *           type: object
+ *           properties:
+ *             id:
+ *               type: string
+ *         required: true
+ *         description: Request body parameters
+ *     responses:
+ *       200:
+ *         description: Success message
+ *       400:
+ *         description: Error message
+ */
+
+// ==================================================================
+
 UserRouter.get("/users", GetUsers);
 UserRouter.get("/user/:id", GetUser);
 UserRouter.put('/user/follow', VerifyToken, Follow);

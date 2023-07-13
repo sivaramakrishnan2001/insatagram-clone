@@ -1,6 +1,8 @@
 import { Server } from "socket.io";
 import { createServer } from "http";
 import bodyParser from "body-parser";
+import swaggerUi from "swagger-ui-express";
+import swaggerJSDoc from "swagger-jsdoc";
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
@@ -13,7 +15,7 @@ import { SongsRouter } from "./routes/songsroute/Songs.js";
 import { ChatRouter } from "./routes/chatroute/ChatRoute.js";
 import { ReelsRouter } from "./routes/reelsroute/ReelsRoute.js";
 import { StickyNotes } from "./models/stickynotes/StickyNotes.js";
-import {StickyNotesRouter} from './routes/stickynotesroute/StickyNotesRoute.js';
+import { StickyNotesRouter } from './routes/stickynotesroute/StickyNotesRoute.js';
 import { OldDateTimeConvert } from "./common/common.js";
 // import { scheduleJob } from "node-schedule";
 import { StoryRouter } from "./routes/storyroute/StoryRoute.js";
@@ -85,6 +87,40 @@ const findStickyNotesTime = async () => {
     }
 }
 
+// ==================================================================
+
+const swaggerDefinition = {
+    info: {
+        title: 'Instagram Swagger API',
+        version: '1.0.0',
+        description: 'Endpoints to test the user registration routes',
+    },
+    host: `localhost:${process.env.PORT ? process.env.PORT : 2000}`,
+    basePath: '/',
+    // securityDefinitions: {
+    //     // bearerAuth: {
+    //     //     // type: 'apiKey',
+    //     //     // name: 'Authorization',
+    //     //     // scheme: 'bearer',
+    //     //     // in: 'header',
+    //     // },
+    // },
+};
+const options = {
+    swaggerDefinition,
+    apis: ['./routes/*/*.js'],
+    // apis: [Auth],
+
+};
+
+const swaggerSpec = swaggerJSDoc(options);
+
+app.get('/swagger.json', (req, res) => {
+    res.setHeader('Content-Type', 'application/json');
+    res.send(swaggerSpec);
+});
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // ==================================================================
 // router
