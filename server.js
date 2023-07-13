@@ -93,9 +93,9 @@ const swaggerDefinition = {
     info: {
         title: 'Instagram Swagger API',
         version: '1.0.0',
-        description: 'Endpoints to test the user registration routes',
+        description: '',
     },
-    host: `localhost:${process.env.PORT ? process.env.PORT : 2000}`,
+    host: `${process.env.HOST ? process.env.HOST : "localhost:" + process.env.PORT ? process.env.PORT : 2000}`,
     basePath: '/',
     // securityDefinitions: {
     //     // bearerAuth: {
