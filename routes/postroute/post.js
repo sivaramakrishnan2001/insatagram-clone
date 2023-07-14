@@ -44,7 +44,7 @@ export const PostRouter = express.Router();
  * @swagger
  * /allpost:
  *   get:
- *     summary: Get all allpost
+ *     summary: get allpost
  *     description: allpost
  *     tags: [Post APIs]
  *     consumes:
@@ -64,7 +64,7 @@ export const PostRouter = express.Router();
  * @swagger
  * /post/userPost/{userId}:
  *  get:
- *      summary: Get userPost
+ *      summary: get user posts 
  *      description: get user details
  *      tags: [Post APIs]
  *      parameters:
@@ -85,7 +85,7 @@ export const PostRouter = express.Router();
  * @swagger
  * /createPost:
  *   post:
- *     summary: Get createPost
+ *     summary: createPost
  *     description: createPost
  *     tags: [Post APIs]
  *     parameters:
