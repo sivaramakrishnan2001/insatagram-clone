@@ -6,14 +6,22 @@ import { Login, SignUp } from "../../controllers/authcontroller/Auth.js";
 
 export const Auth = express.Router();
 
+/**
+ * @swagger
+ * tags:
+ *   name: Authentication
+ *   description: User signup & login operations
+ */
+
+// ==================================================================
 
 /**
  * @swagger
  * /signup:
  *  post:
+ *      summary: signup new user
  *      description: signup new user
- *      consumes:
- *          - application/json
+ *      tags: [Authentication]
  *      parameters:
  *        - in: body
  *          name: user
@@ -40,9 +48,9 @@ export const Auth = express.Router();
  * @swagger
  * /login:
  *  post:
- *      description: Create new user
- *      consumes:
- *          - application/json
+ *      summary: user login 
+ *      description: user login 
+ *      tags: [Authentication]
  *      parameters:
  *        - in: body
  *          name: user

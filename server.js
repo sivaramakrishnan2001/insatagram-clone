@@ -91,7 +91,7 @@ const findStickyNotesTime = async () => {
 
 const swaggerDefinition = {
     info: {
-        title: 'Instagram Swagger API',
+        title: 'My Instagram APIs',
         version: '1.0.0',
         description: '',
     },

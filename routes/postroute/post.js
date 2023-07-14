@@ -29,6 +29,285 @@ export const PostRouter = express.Router();
 
 // let upload = multer({ storage, fileFilter });
 
+// ==================================================================
+
+/**
+ * @swagger
+ * tags:
+ *   name: Post APIs
+ *   description: User operations
+ */
+
+// ==================================================================
+
+/**
+ * @swagger
+ * /allpost:
+ *   get:
+ *     summary: Get all allpost
+ *     description: allpost
+ *     tags: [Post APIs]
+ *     consumes:
+ *          - application/json
+ *     responses:
+ *       200:
+ *         description: Success message
+ *       400:
+ *         description: Error message
+ */
+
+
+// ==================================================================
+
+/**
+ * 
+ * @swagger
+ * /post/userPost/{userId}:
+ *  get:
+ *      summary: Get userPost
+ *      description: get user details
+ *      tags: [Post APIs]
+ *      parameters:
+ *        - in: path
+ *          name: userId
+ *          schema:
+ *          type: string
+ *          required: true
+ *          description: string id 
+ *      responses:
+ *          200:
+ *              description: get user details
+ */
+
+// ==================================================================
+
+/**
+ * @swagger
+ * /createPost:
+ *   post:
+ *     summary: Get createPost
+ *     description: createPost
+ *     tags: [Post APIs]
+ *     parameters:
+ *       - in: header
+ *         name: Authorization
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: API authorization token
+ *       - in: body
+ *         name: body
+ *         schema:
+ *           type: object
+ *           properties:
+ *             title:
+ *               type: string
+ *               required: true
+ *               description: Request body parameters
+ *             song:
+ *               type: object
+ *               required: true
+ *               description: Request body parameters
+ *     responses:
+ *       200:
+ *         description: Success message
+ *       400:
+ *         description: Error message
+ */
+
+// ==================================================================
+
+/**
+ * @swagger
+ * /post/unsave:
+ *   post:
+ *     description: unsave
+ *     tags: [Post APIs]
+ *     parameters:
+ *       - in: header
+ *         name: Authorization
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: API authorization token
+ *       - in: body
+ *         name: body
+ *         schema:
+ *           type: object
+ *           properties:
+ *             postId:
+ *               type: string
+ *               required: true
+ *               description: Request body parameters
+ *     responses:
+ *       200:
+ *         description: Success message
+ *       400:
+ *         description: Error message
+ */
+
+// ==================================================================
+
+/**
+ * @swagger
+ * /post/save:
+ *   post:
+ *     description: save
+ *     tags: [Post APIs]
+ *     parameters:
+ *       - in: header
+ *         name: Authorization
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: API authorization token
+ *       - in: body
+ *         name: body
+ *         schema:
+ *           type: object
+ *           properties:
+ *             postId:
+ *               type: string
+ *               required: true
+ *               description: Request body parameters
+ *     responses:
+ *       200:
+ *         description: Success message
+ *       400:
+ *         description: Error message
+ */
+
+// ==================================================================
+
+/**
+ * @swagger
+ * /post/like:
+ *   put:
+ *     description: like
+ *     tags: [Post APIs]
+ *     parameters:
+ *       - in: header
+ *         name: Authorization
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: API authorization token
+ *       - in: body
+ *         name: body
+ *         schema:
+ *           type: object
+ *           properties:
+ *             postid:
+ *               type: string
+ *               required: true
+ *               description: Request body parameters
+ *     responses:
+ *       200:
+ *         description: Success message
+ *       400:
+ *         description: Error message
+ */
+
+// ==================================================================
+
+/**
+ * @swagger
+ * /post/unlike:
+ *   put:
+ *     description: unlike
+ *     tags: [Post APIs]
+ *     parameters:
+ *       - in: header
+ *         name: Authorization
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: API authorization token
+ *       - in: body
+ *         name: body
+ *         schema:
+ *           type: object
+ *           properties:
+ *             postid:
+ *               type: string
+ *               required: true
+ *               description: Request body parameters
+ *     responses:
+ *       200:
+ *         description: Success message
+ *       400:
+ *         description: Error message
+ */
+
+// ==================================================================
+
+/**
+ * @swagger
+ * /post/comment:
+ *   put:
+ *     description: comment
+ *     tags: [Post APIs]
+ *     parameters:
+ *       - in: header
+ *         name: Authorization
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: API authorization token
+ *       - in: body
+ *         name: body
+ *         schema:
+ *           type: object
+ *           properties:
+ *             postid:
+ *               type: string
+ *               required: true
+ *               description: Request body parameters
+ *               text:
+ *               type: string
+ *               required: true
+ *               description: Request body parameters
+ *     responses:
+ *       200:
+ *         description: Success message
+ *       400:
+ *         description: Error message
+ */
+
+// ==================================================================
+
+/**
+ * @swagger
+ * /post/delete:
+ *   delete:
+ *     description: delete
+ *     tags: [Post APIs]
+ *     parameters:
+ *       - in: header
+ *         name: Authorization
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: API authorization token
+ *       - in: body
+ *         name: body
+ *         schema:
+ *           type: object
+ *           properties:
+ *             postid:
+ *               type: string
+ *               required: true
+ *               description: Request body parameters
+ *     responses:
+ *       200:
+ *         description: Success message
+ *       400:
+ *         description: Error message
+ */
+
+// ==================================================================
+
+
 
 PostRouter.get('/allpost', GetAllPost);
 PostRouter.get('/post/userPost/:userId', GetUserPost);

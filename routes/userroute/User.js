@@ -4,16 +4,24 @@ import { Follow, GetProfile, GetUser, GetUsers, RemoveFollower, UnFollow, Update
 export const UserRouter = express.Router();
 
 // =====================================================================
+
+/**
+ * @swagger
+ * tags:
+ *   name: USER APIS
+ *   description: User operations
+ */
+
 // =====================================================================
 
 /**
  * @swagger
  * /users:
  *  get:
- *      description:  get all users
- *      consumes:
- *          - application/json
- *      responses:
+ *     summary: get all users
+ *     description: get all users
+ *     tags: [USER APIS]
+ *     responses:
  *          201:
  *              description: get all users
  */
@@ -25,7 +33,9 @@ export const UserRouter = express.Router();
  * @swagger
  * /user/{userId}:
  *  get:
- *      description: get user
+ *      summary: get user details
+ *      description: get user details
+ *      tags: [USER APIS]
  *      parameters:
  *        - in: path
  *          name: userId
@@ -42,12 +52,13 @@ export const UserRouter = express.Router();
 // /user/follow
 
 
-
 /**
  * @swagger
  * /user/follow:
  *   put:
- *     description: Update resource
+ *     summary: follow user
+ *     description: follow user
+ *     tags: [USER APIS]
  *     parameters:
  *       - in: header
  *         name: Authorization
@@ -77,7 +88,9 @@ export const UserRouter = express.Router();
  * @swagger
  * /user/unfollow:
  *   put:
- *     description: Update resource
+ *     summary: unfollow user
+ *     description: unfollow user
+ *     tags: [USER APIS]
  *     parameters:
  *       - in: header
  *         name: Authorization
@@ -108,7 +121,9 @@ export const UserRouter = express.Router();
  * @swagger
  * /user/removefollower:
  *   put:
- *     description: Update resource
+ *     summary: removefollower user
+ *     description: removefollower user
+ *     tags: [USER APIS]
  *     parameters:
  *       - in: header
  *         name: Authorization
@@ -139,7 +154,9 @@ export const UserRouter = express.Router();
  * @swagger
  * /user/getprofile/{id}:
  *  get:
+ *      summary: get user details
  *      description: get user details
+ *      tags: [USER APIS]
  *      parameters:
  *        - in: path
  *          name: id
@@ -158,7 +175,9 @@ export const UserRouter = express.Router();
  * @swagger
  * /user/updateProfile:
  *   put:
- *     description: updateProfile
+ *     summary: update user Profile
+ *     description: update user Profile
+ *     tags: [USER APIS]
  *     parameters:
  *       - in: header
  *         name: Authorization

@@ -63,6 +63,19 @@ export const UnlikeStory = async (req, res) => {
     }
 }
 
+export const ViewStory = async (req, res) => {
+    try {
+        const viewers = await STORY.findByIdAndUpdate({ _id: req.body.postid }, { $addToSet: { viewers: req.user._id } });
+        if (viewers) {
+            res.status(200).json({ status: true, data: viewers });
+        } else {
+            res.status(200).json({ status: false, data: viewers });
+        }
+    } catch (err) {
+        res.status(200).json({ status: false, message: err })
+    }
+}
+
 
 export const GetAllStorys = async (req, res) => {
     try {
@@ -148,8 +161,8 @@ export const GetAllStorys = async (req, res) => {
 
 export const DeleteStory = async (req, res) => {
     try {
-        const story = await STORY.deleteOne({ "postedBy": req.user._id });
-        res.status(200).json({ status: true, data: story })
+        const story = await STORY.findByIdAndDelete({ "_id": req.body.storyid });
+        res.status(200).json({ status: true, data: story });
     } catch (err) {
         res.status(200).json({ status: false, message: err })
     }

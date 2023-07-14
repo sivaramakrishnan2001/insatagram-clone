@@ -6,12 +6,20 @@ import { CreateStickyNotes, DeleteAllStickyNotes, DeleteStickyNotes, GetAllStick
 
 export const StickyNotesRouter = express.Router();
 
+/**
+ * @swagger
+ * tags:
+ *   name: StickyNotes
+ *   description: User operations
+ */
 
 /**
  * @swagger
  * /createStickyNotes:
  *   post:
- *     description: createStickyNotes
+ *     summary: createStickyNotes
+ *     description: save
+ *     tags: [StickyNotes]
  *     parameters:
  *       - in: header
  *         name: Authorization
@@ -46,6 +54,7 @@ export const StickyNotesRouter = express.Router();
  * /getAllStickyNotes:
  *   get:
  *     description: createStickyNotes
+ *     tags: [StickyNotes]
  *     consumes:
  *          - application/json
  *     responses:
@@ -56,12 +65,66 @@ export const StickyNotesRouter = express.Router();
  */
 
 // =====================================================================
+
+/**
+ * 
+ * @swagger
+ * /getStickyNotes/{id}:
+ *  get:
+ *      description: getStickyNotes
+ *      tags: [StickyNotes]
+ *      parameters:
+ *        - in: path
+ *          name: id
+ *          schema:
+ *              type: string
+ *          required: true
+ *          description: string 
+ *      responses:
+ *          200:
+ *              description: 
+ */
+
 // =====================================================================
+
+/**
+ * 
+ * @swagger
+ * /stickyNotes/delete/{id}:
+ *  delete:
+ *      description: delete
+ *      tags: [StickyNotes]
+ *      parameters:
+ *        - in: path
+ *          name: id
+ *          schema:
+ *              type: string
+ *          required: true
+ *          description: delete 
+ *      responses:
+ *          200:
+ *              description: 
+ */
+
 // =====================================================================
+
+/**
+ * 
+ * @swagger
+ * /stickyNotes/delete/:
+ *  delete:
+ *      tags: [StickyNotes]
+ *      responses:
+ *          200:
+ *              description: 
+ */
+
+// =====================================================================
+
 
 StickyNotesRouter.post("/createStickyNotes", VerifyToken, CreateStickyNotes);
 StickyNotesRouter.get("/getAllStickyNotes", GetAllStickyNotes);
-StickyNotesRouter.get("/getStickyNotes", VerifyToken, GetStickyNotes);
+StickyNotesRouter.get("/getStickyNotes/:id", VerifyToken, GetStickyNotes);
 StickyNotesRouter.delete("/stickyNotes/delete/:id", VerifyToken, DeleteStickyNotes);
 StickyNotesRouter.delete("/stickyNotes/delete/", VerifyToken, DeleteAllStickyNotes);
 
