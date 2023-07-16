@@ -4,6 +4,7 @@ import jwt from "jsonwebtoken";
 
 
 
+
 export const SignUp = async (req, res) => {
     try {
         if (!req.body.name || !req.body.email || !req.body.password) {
@@ -31,7 +32,7 @@ export const SignUp = async (req, res) => {
 }
 
 export const Login = async (req, res) => {
-console.log("login",req.body);
+    console.log("login", req.body);
     try {
         const user = await User.findOne({ email: req.body.email });
         const password = await bcrypt.compare(req.body.password, user.password);
@@ -39,8 +40,54 @@ console.log("login",req.body);
         if (!user) res.status(400).send("Invalid Email  req.body.email");
         if (!password) res.status(400).send("Invalid Email or password");
 
-        const token =  jwt.sign({ ...user }, process.env.TOKEN_KEY);
+        const token = jwt.sign({ ...user }, process.env.TOKEN_KEY);
         res.status(200).send({ status: true, data: { token: token, user: user } });
+
+    } catch (error) {
+        res.status(500).send("internal error login");
+    }
+}
+
+
+export const FirebaseAuthentication = async (req, res) => {
+
+    const { name, email, number } = req.body;
+
+    if (!name || !email) {
+        return res.send("fill all fiels");
+    }
+
+    try {
+        const exists = await User.findOne({ email: email });
+
+        if (exists) {
+
+            const token = jwt.sign({ ...exists }, process.env.TOKEN_KEY);
+
+            if (!exists.number && number) {
+                const doc = await User.findOneAndUpdate({ email: email }, {
+                    number: number
+                }, {
+                    new: true
+                });
+
+                return res.status(200).send({ status: true, data: { token: token, user: doc } });
+
+            }
+            return res.status(200).send({ status: true, data: { token: token, user: exists } });
+        }
+
+        const user = await User.create({
+            name: name,
+            email: email,
+            number: number,
+            userid: "" + new Date().getTime() + Math.floor(Math.random() * 100000),
+            password:""
+        });
+
+        const token = jwt.sign({ ...user }, process.env.TOKEN_KEY);
+
+        res.status(201).send({ status: true, data: { token: token, user: user } });
 
     } catch (error) {
         res.status(500).send("internal error login");
