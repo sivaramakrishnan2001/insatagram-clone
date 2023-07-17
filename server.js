@@ -22,6 +22,8 @@ import { StoryRouter } from "./routes/storyroute/StoryRoute.js";
 import { SaveRouter } from "./routes/saveroute/SaveRoute.js";
 import { LikeRouter } from "./routes/likeroute/LikeRoute.js";
 import { STORY } from "./models/story/Story.js";
+import { ConversationRouter } from "./routes/conversation/ConversationRoute.js";
+import { MessageRouter } from "./routes/messageroute/MessageRoute.js";
 
 
 
@@ -132,11 +134,12 @@ app.use(PostRouter);
 app.use(ReelsRouter);
 app.use(SongsRouter);
 app.use(ChatRouter);
-// app.use(MessageRouter);
+app.use(MessageRouter);
 app.use(StickyNotesRouter);
 app.use(StoryRouter);
 app.use(SaveRouter);
 app.use(LikeRouter);
+app.use(ConversationRouter)
 
 
 app.listen(process.env.PORT ? process.env.PORT : 2000, () => {
