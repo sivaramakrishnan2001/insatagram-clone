@@ -49,7 +49,7 @@ export const OldDateTimeConvert = (datetime) => {
     return { years, months, weeks, days, hours, minutes, seconds }
 }
 
-export const serverLog = (message,data) => {
+export const serverLog = (message, data) => {
     let currentTime = new Date();
     let currentOffset = currentTime.getTimezoneOffset();
     let ISTOffset = 330;   // IST offset UTC +5:30 
@@ -59,5 +59,5 @@ export const serverLog = (message,data) => {
     let minutesIST = ISTTime.getMinutes();
 
     console.log(currentTime);
-    console.log(hoursIST + ":" + minutesIST + message + data);
+    console.log(hoursIST + ":" + minutesIST + "  " + message + data);
 }

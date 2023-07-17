@@ -66,6 +66,8 @@ export const UnFollow = async (req, res) => {
 }
 
 export const RemoveFollower = async (req, res) => {
+    serverLog("req.body.id",req.body.id);
+
     try {
         const remove = await User.findByIdAndUpdate({ _id: req.body.id }, { $pull: { followers: req.user._id } }, { new: true });
         res.status(200).json({ status: true, data: remove, message: "follower removed" });
@@ -75,7 +77,8 @@ export const RemoveFollower = async (req, res) => {
 }
 
 export const GetProfile = async (req, res) => {
-    console.log("req.params.id)");
+    serverLog("GetProfile req.params.id",req.params.id);
+
     try {
         if (req.params.id) {
             const profile = await User.findOne({ _id: req.params.id })
@@ -93,7 +96,8 @@ export const GetProfile = async (req, res) => {
 
 export const UpdateProfile = async (req, res) => {
     try {
-        console.log(" req.body.profile = ", req.body.profile);
+    serverLog("UpdateProfile req.params.id",req.params.id);
+
         const user = await User.findByIdAndUpdate(req.user._id, { profile: req.body.profile });
         res.status(200).json({ status: true, data: user });
 
