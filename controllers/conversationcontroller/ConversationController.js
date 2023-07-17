@@ -1,3 +1,4 @@
+import { serverLog } from "../../common/common.js";
 import { Conversation } from "../../models/conversation/Conversation.js";
 
 
@@ -34,7 +35,7 @@ export const CreateConversation = async (req, res) => {
 export const GetAllConversation = async (req, res) => {
     try {
         const conversation = await Conversation.find();
-        console.log("conversation", conversation);
+        serverLog("conversation", conversation);
         res.status(200).json({ status: true, data: conversation });
 
     } catch (err) {
@@ -45,7 +46,8 @@ export const GetAllConversation = async (req, res) => {
 export const DeleteAllConversation = async (req, res) => {
     try {
         const conversation = await Conversation.deleteMany();
-        console.log("conversation", conversation);
+        serverLog("conversation", conversation);
+
         res.status(200).json({ status: true, data: conversation });
 
     } catch (err) {
@@ -59,7 +61,8 @@ export const GetConversation = async (req, res) => {
     try {
         const conversation = await Conversation.find(
         );
-        console.log("conversation", conversation);
+        serverLog("conversation", conversation);
+
         res.status(200).json({ status: true, data: conversation });
 
     } catch (err) {

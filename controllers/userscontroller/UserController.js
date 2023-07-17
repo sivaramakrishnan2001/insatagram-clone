@@ -1,15 +1,18 @@
+import { serverLog } from "../../common/common.js";
 import { User } from "../../models/User.js";
 
 
 export const GetUser = async (req, res) => {
     try {
         var id = req.params.id;
+        serverLog("id",id);
         if (id) {
             const user = await User.findById({ _id: id })
                 .populate("followers", "_id name email profile followers following profile account category")
                 .populate("following", "_id name email profile followers following profile account category")
                 .sort('-createdAt');
             user.password = undefined;
+            serverLog("user",user);
             res.status(200).json({ status: true, data: user });
         } else {
             res.status(200).json({ status: false, message: "id null" });
@@ -31,6 +34,8 @@ export const GetUsers = async (req, res) => {
             const { _id, name, profile, followers, following, account, category } = i;
             return { _id, name, profile, followers, following, account, category }
         });
+        serverLog("data",data);
+
         res.status(200).json({ status: true, data: data });
     } catch (err) {
         res.status(200).json({ status: false, message: err });
@@ -42,6 +47,8 @@ export const Follow = async (req, res) => {
         console.log("req.body", req.body);
         const follow = await User.findByIdAndUpdate({ _id: req.body.id }, { $addToSet: { followers: req.user._id } }, { new: true });
         const following = await User.findByIdAndUpdate({ _id: req.user._id }, { $addToSet: { following: req.body.id } }, { new: true });
+        serverLog("follow",follow);
+        serverLog("following",following);
         res.status(200).json({ status: true, data: { follow, following } });
     } catch (err) {
         res.status(200).json({ status: false, message: err });
@@ -76,7 +83,7 @@ export const GetProfile = async (req, res) => {
                 .populate("following", "_id name email profile followers following profile account category")
                 .sort('-createdAt');
             res.status(200).json({ status: true, data: { profile } });
-        }else{
+        } else {
             res.status(200).json({ status: false, message: "id value empty check user id" });
         }
     } catch (err) {

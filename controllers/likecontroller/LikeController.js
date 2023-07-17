@@ -7,6 +7,7 @@ export const GetAllLikes = async (req, res) => {
         const posts = await POST.find();
         const reels = await REELS.find();
         const likes = [];
+        serverLog("GetAllLikes req.user._id",req.user._id);
 
         for (let index = 0; index < posts.length; index++) {
             const element = posts[index];

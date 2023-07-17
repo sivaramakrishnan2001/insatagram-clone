@@ -1,3 +1,4 @@
+import { serverLog } from "../../common/common.js";
 import { StickyNotes } from "../../models/stickynotes/StickyNotes.js";
 
 
@@ -40,6 +41,7 @@ export const GetAllStickyNotes = async (req, res) => {
                     select: "-password -followers -following -subscribers"
                 }
             });
+        serverLog("stickynotes", stickynotes);
 
         res.status(200).json({ status: true, data: stickynotes })
     } catch (err) {
@@ -49,12 +51,13 @@ export const GetAllStickyNotes = async (req, res) => {
 
 export const GetStickyNotes = async (req, res) => {
     try {
+        serverLog("req.params.id", req.params.id);
         const stickynotes = await StickyNotes.findOne({ "postedBy": req.params.id })
             .populate("song", "_id userid name song img desc movie")
             .populate("postedBy", "_id name email profile followers following profile")
             .populate("postedBy.followers", "_id name email profile followers following profile")
             .populate("postedBy.following", "_id name email profile followers following profile");
-
+        serverLog("stickynotes", stickynotes);
         res.status(200).json({ status: true, data: stickynotes });
     } catch (err) {
         res.status(200).json({ status: false, message: err })
@@ -72,11 +75,11 @@ export const DeleteAllStickyNotes = async (req, res) => {
 
 
 export const DeleteStickyNotes = async (req, res) => {
-    
+
     try {
         console.log("stickynotes-----------", req.params.id);
         let stickynotes = await StickyNotes.findByIdAndDelete({ _id: req.params.id }).count();
-        console.log("stickynotes1111-----------",stickynotes);
+        console.log("stickynotes1111-----------", stickynotes);
         if (stickynotes) {
             return res.status(200).json({ status: true, data: stickynotes });
         }

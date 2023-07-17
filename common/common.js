@@ -48,3 +48,16 @@ export const OldDateTimeConvert = (datetime) => {
     // console.log(`Years: ${years}, Months: ${months}, Weeks: ${weeks}, Days: ${days}, Hours: ${hours}, Minutes: ${minutes}`);
     return { years, months, weeks, days, hours, minutes, seconds }
 }
+
+export const serverLog = (message,data) => {
+    let currentTime = new Date();
+    let currentOffset = currentTime.getTimezoneOffset();
+    let ISTOffset = 330;   // IST offset UTC +5:30 
+    let ISTTime = new Date(currentTime.getTime() + (ISTOffset + currentOffset) * 60000);
+    // ISTTime now represents the time in IST coordinates
+    let hoursIST = ISTTime.getHours()
+    let minutesIST = ISTTime.getMinutes();
+
+    console.log(currentTime);
+    console.log(hoursIST + ":" + minutesIST + message + data);
+}

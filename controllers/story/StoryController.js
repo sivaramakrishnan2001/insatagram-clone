@@ -1,4 +1,4 @@
-import { OldDateTimeConvert } from "../../common/common.js";
+import { OldDateTimeConvert, serverLog } from "../../common/common.js";
 import { STORY } from "../../models/story/Story.js";
 
 
@@ -152,6 +152,7 @@ export const GetAllStorys = async (req, res) => {
             first_user_story.unshift(user);
         }
 
+        serverLog("storys",first_user_story);
 
         res.status(200).json({ status: true, data: first_user_story, dummy: first_user_story });
     } catch (err) {

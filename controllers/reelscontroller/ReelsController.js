@@ -1,9 +1,11 @@
+import { serverLog } from "../../common/common.js";
 import { REELS } from "../../models/reels/Reels.js";
 
 export const CreateReels = async (req, res) => {
     try {
         const { url, desc, song, location } = req.body;
-        console.log("CreateReels....");
+        serverLog("CreateReels",{ url, desc, song, location });
+
         const video = await REELS.create({
             url: url,
             desc: desc,
@@ -31,6 +33,7 @@ export const GetAllReels = async (req, res) => {
             .populate("likes", "_id name email profile followers following profile")
             .populate("comments.postedBy", "_id name email profile followers following profile")
             .sort('-createdAt');
+            serverLog("video",video);
 
         res.status(200).send({ status: true, data: video });
 
@@ -42,6 +45,7 @@ export const GetAllReels = async (req, res) => {
 export const UpdateReels = async (req, res) => {
     try {
         const { reelsid, desc } = req.body;
+        serverLog("reelsid",reelsid);
 
         const video = await REELS.findByIdAndUpdate({ _id: reelsid }, {
             $set: {
@@ -60,8 +64,11 @@ export const UpdateReels = async (req, res) => {
 export const DeleteReels = async (req, res) => {
     try {
         const { reelsid } = req.body;
+        serverLog("reelsid", reelsid);
 
         const video = await REELS.findByIdAndDelete({ _id: reelsid });
+        serverLog("video", video);
+
         if (video) {
             res.status(200).send({ status: true, data: video, message: "Successfully Deleted" });
         } else {

@@ -10,6 +10,8 @@ export const SignUp = async (req, res) => {
         if (!req.body.name || !req.body.email || !req.body.password) {
             return res.send("fill all fiels")
         }
+        const { email, name, password } = req.body;
+        serverLog("SignUp", { email, name, password });
 
         const exists = await User.findOne({ email: req.body.email });
 
@@ -17,6 +19,7 @@ export const SignUp = async (req, res) => {
             return res.status(405).send("user already exists : ");
         }
         const hashpassword = await bcrypt.hash(req.body.password, 12);
+        serverLog("hashpassword", hashpassword);
 
         const user = await new User({
             name: req.body.name,
@@ -32,7 +35,9 @@ export const SignUp = async (req, res) => {
 }
 
 export const Login = async (req, res) => {
-    console.log("login", req.body);
+    const { email, password } = req.body
+    serverLog("Login",{ email, password});
+
     try {
         const user = await User.findOne({ email: req.body.email });
         const password = await bcrypt.compare(req.body.password, user.password);
@@ -52,6 +57,7 @@ export const Login = async (req, res) => {
 export const FirebaseAuthentication = async (req, res) => {
 
     const { name, email, number } = req.body;
+    serverLog("FirebaseAuthentication", {name, email, number});
 
     if (!name || !email) {
         return res.send("fill all fiels");
@@ -82,7 +88,7 @@ export const FirebaseAuthentication = async (req, res) => {
             email: email,
             number: number,
             userid: "" + new Date().getTime() + Math.floor(Math.random() * 100000),
-            password:""
+            password: ""
         });
 
         const token = jwt.sign({ ...user }, process.env.TOKEN_KEY);

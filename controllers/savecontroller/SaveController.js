@@ -19,6 +19,7 @@ export const GetAllSavedPost = async (req, res) => {
             console.log("posts",posts);
         const reels = await REELS.find();
         const save = [];
+        serverLog("req.user._id", req.user._id);
 
         for (let index = 0; index < posts.length; index++) {
             const element = posts[index];
@@ -33,6 +34,7 @@ export const GetAllSavedPost = async (req, res) => {
                 save.push(element);
             }
         }
+        serverLog("save", save);
 
         res.status(200).json({ status: true, data: save });
 
