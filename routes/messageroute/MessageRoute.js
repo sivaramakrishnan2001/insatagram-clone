@@ -1,7 +1,7 @@
 import express from "express";
-import { VerifyToken } from "../../config/VerifyToken.js";
+// import { VerifyToken } from "../../config/VerifyToken.js";
 // import { createMessage, getMessages } from "../../controllers/messagecontroller/MessageController.js";
-import { DeleteAllMessages, createMessage, getAllMessages } from "../../controllers/messagecontroller/Message.js";
+import { DeleteAllMessages, GetConversationAllMessages, createMessage, getAllMessages } from "../../controllers/messagecontroller/Message.js";
 export const MessageRouter = express.Router();
 
 // ==================================================================
@@ -85,6 +85,29 @@ export const MessageRouter = express.Router();
 
 /**
  * @swagger
+ * /user/conversationMessages/{conversationId}:
+ *   post:
+ *     summary: /user/conversationMessages
+ *     description: /user/conversationMessages
+ *     tags: [REALTIME Chat API]
+*      parameters:
+ *        - in: path
+ *          name: conversationId
+ *          schema:
+ *              type: string
+ *          required: true
+ *          description: string id of user to delete
+ *     responses:
+ *       200:
+ *         description: Success message
+ *       400:
+ *         description: Error message
+ */
+
+// ==================================================================
+
+/**
+ * @swagger
  * /deleteAllMessages:
  *   delete:
  *     summary: deleteAllMessages 
@@ -101,6 +124,7 @@ export const MessageRouter = express.Router();
 
 MessageRouter.get('/getAllMessages', getAllMessages);
 MessageRouter.post('/user/createMessages', createMessage);
+MessageRouter.get('/user/getConversationMessages/:conversationId', GetConversationAllMessages);
 MessageRouter.delete('/deleteAllMessages', DeleteAllMessages);
 
 

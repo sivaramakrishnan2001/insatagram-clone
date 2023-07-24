@@ -73,11 +73,35 @@ export const ConversationRouter = express.Router();
  *       400:
  *         description: Error message
  */
+
+// ==================================================================
+
+/**
+ * @swagger
+ * /user/getAllConversation:
+ *   get:
+ *     summary: user/getAllConversation
+ *     description: getAllConversation
+ *     tags: [REALTIME Chat API]
+ *     parameters:
+ *       - in: header
+ *         name: Authorization
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: API authorization token
+ *     responses:
+ *       200:
+ *         description: Success message
+ *       400:
+ *         description: Error message
+ */
+
 // ==================================================================
 
 ConversationRouter.get('/getAllConversation', GetAllConversation);
+ConversationRouter.get('/user/AllConversation', VerifyToken, GetConversation)
 ConversationRouter.delete('/deleteAllConversation', DeleteAllConversation);
-ConversationRouter.get('/user/getAllConversation', VerifyToken, GetConversation)
 ConversationRouter.post('/user/createConversation', VerifyToken, CreateConversation);
 
 

@@ -19,6 +19,9 @@ const ConversationSchema = new Schema(
                 id: String,
             },
         ],
+        lastmessage: Object,
+        viewstatus: Boolean,
+        messagecount: Number
     },
     {
         timestamps: true

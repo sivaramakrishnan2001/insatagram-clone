@@ -1,3 +1,4 @@
+import { Conversation } from "../../models/conversation/Conversation.js";
 import { Message } from "../../models/message/Message.js";
 
 
@@ -14,17 +15,33 @@ export const createMessage = async (req, res) => {
     };
 
     try {
+        const conversation = await Conversation.findByIdAndUpdate({ _id: conversationid }, { lastmessage: obj })
         const chat = await Message.create({
             sender: senderid,
             conversation: conversationid,
             content: obj
         });
-        res.status(200).json({ status: true, data: chat });
+        if (conversation && chat) {
+            res.status(200).json({ status: true, data: chat });
+        }else{
+            res.status(200).json({ status: false, data: chat });
+        }
     } catch (err) {
         res.status(500).send({ status: false, message: err });
     }
 }
 
+
+
+export const GetConversationAllMessages = async (req, res) => {
+    const { conversationId } = req.params;
+    try {
+        const messages = await Message.find({ conversation: conversationId })
+        res.status(200).json({ status: true, data: messages });
+    } catch (err) {
+        res.status(500).send({ status: false, message: err });
+    }
+}
 
 
 export const getAllMessages = async (req, res) => {
@@ -35,6 +52,7 @@ export const getAllMessages = async (req, res) => {
         res.status(500).send({ status: false, message: err });
     }
 }
+
 
 export const DeleteAllMessages = async (req, res) => {
     try {

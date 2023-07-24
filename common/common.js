@@ -59,5 +59,5 @@ export const serverLog = (message, data) => {
     let minutesIST = ISTTime.getMinutes();
 
     console.log(currentTime);
-    console.log(hoursIST + ":" + minutesIST + "  " + message + data);
+    console.log(hoursIST + " : " + minutesIST + "  " + message +" "+ data);
 }

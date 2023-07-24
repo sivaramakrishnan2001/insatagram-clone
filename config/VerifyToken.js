@@ -5,7 +5,7 @@ import { User } from "../models/User.js";
 export const VerifyToken = async (req, res, next) => {
 
     const token = req.body.token || req.query.token || req.headers["token"] || req.headers.authorization;
-console.log("token",req.headers);
+    console.log("token", token);
     if (!token) {
         return res.status(403).send("A token is required for authentication");
     }
@@ -16,6 +16,7 @@ console.log("token",req.headers);
 
         const { _doc } = decoded;
         const userdata = await User.findById(_doc._id);
+        console.log("userdata",userdata);
         req.user = userdata;
 
     } catch (err) {
