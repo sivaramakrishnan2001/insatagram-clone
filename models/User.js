@@ -53,7 +53,7 @@ const userSchema = new Schema({
     gender: String,
     number: String,
 
-}, { timestamps: true });
+}, { timestamps: true,suppressReservedWarning: true , });
 
 export const User = mongoose.model("User", userSchema);
 

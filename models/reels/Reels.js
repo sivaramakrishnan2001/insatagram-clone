@@ -31,7 +31,7 @@ const ReelsSchema = new Schema({
             }
         }
     ],
-}, { timestamps:true });
+}, { timestamps:true ,suppressReservedWarning: true});
 
 
 export const REELS = mongoose.model("Reels", ReelsSchema);

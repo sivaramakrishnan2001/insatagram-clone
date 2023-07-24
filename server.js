@@ -26,22 +26,18 @@ import { ConversationRouter } from "./routes/conversation/ConversationRoute.js";
 import { MessageRouter } from "./routes/messageroute/MessageRoute.js";
 
 
-
 const app = express();
 
 // ==================================================================
-// database connection
-
-
-
-// ==================================================================
 // middleware
+
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.urlencoded({ extended: true }));
-DBConnection();
+
+// ==================================================================
 
 const eighthours = "*/1 * * * * *";
 
@@ -126,6 +122,16 @@ app.get('/swagger.json', (req, res) => {
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // ==================================================================
+
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type,token');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    next();
+});
+
+// ==================================================================
 // router
 
 app.use(Auth);
@@ -143,7 +149,16 @@ app.use(ConversationRouter)
 
 
 app.listen(process.env.PORT ? process.env.PORT : 2000, () => {
+
     console.log('server started http://localhost:2000');
+
+    // ==================================================================
+    // database connection
+
+    DBConnection();
+
+    // ==================================================================
+
 });
 
 
@@ -182,7 +197,7 @@ app.listen(process.env.PORT ? process.env.PORT : 2000, () => {
 // // ==================================================================
 // // server
 
-// httpServer.listen(process.env.PORT ? process.env.PORT : 2000, () => {
+// httpServer.listen(process.env.POR-T ? process.env.PORT : 2000, () => {
 //     console.log(`server started http://localhost:${2000}`);
 
 // });

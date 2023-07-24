@@ -49,7 +49,7 @@ const postSchema = new Schema({
         }
     ],
 
-}, { timestamps: true });
+}, { timestamps: true ,suppressReservedWarning: true});
 
 export const POST = mongoose.model("Post", postSchema);
 

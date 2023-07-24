@@ -71,9 +71,9 @@ export const PostRouter = express.Router();
  *        - in: path
  *          name: userId
  *          schema:
- *          type: string
- *          required: true
- *          description: string id 
+ *            type: string
+ *            required: true
+ *            description: string id 
  *      responses:
  *          200:
  *              description: get user details
@@ -128,8 +128,8 @@ export const PostRouter = express.Router();
  *         name: Authorization
  *         schema:
  *           type: string
- *         required: true
- *         description: API authorization token
+ *           required: true
+ *           description: API authorization token
  *       - in: body
  *         name: body
  *         schema:
@@ -263,7 +263,7 @@ export const PostRouter = express.Router();
  *               type: string
  *               required: true
  *               description: Request body parameters
- *               text:
+ *             text:
  *               type: string
  *               required: true
  *               description: Request body parameters

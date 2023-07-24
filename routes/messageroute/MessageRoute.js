@@ -84,41 +84,40 @@ export const MessageRouter = express.Router();
 // ==================================================================
 
 /**
+ * 
  * @swagger
  * /user/conversationMessages/{conversationId}:
- *   post:
- *     summary: /user/conversationMessages
- *     description: /user/conversationMessages
- *     tags: [REALTIME Chat API]
-*      parameters:
+ *  post:
+ *      summary: ""
+ *      description: conversationMessages
+ *      tags: [REALTIME Chat API]
+ *      parameters:
  *        - in: path
  *          name: conversationId
  *          schema:
  *              type: string
  *          required: true
- *          description: string id of user to delete
- *     responses:
- *       200:
- *         description: Success message
- *       400:
- *         description: Error message
+ *          description: string conversationId
+ *      responses:
+ *          200:
+ *              description: conversationMessages
  */
 
 // ==================================================================
 
-/**
- * @swagger
- * /deleteAllMessages:
- *   delete:
- *     summary: deleteAllMessages 
- *     description: deleteAllMessages 
- *     tags: [REALTIME Chat API]
- *     responses:
- *       200:
- *         description: Success message
- *       400:
- *         description: Error message
- */
+// /**
+//  * @swagger
+//  * /deleteAllMessages:
+//  *   delete:
+//  *     summary: deleteAllMessages 
+//  *     description: deleteAllMessages 
+//  *     tags: [REALTIME Chat API]
+//  *     responses:
+//  *       200:
+//  *         description: Success message
+//  *       400:
+//  *         description: Error message
+//  */
 
 // ==================================================================
 

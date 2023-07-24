@@ -14,6 +14,6 @@ const songsSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "User"
     },
-}, { timestamps: true });
+}, { timestamps: true ,suppressReservedWarning: true});
 
 export const SONGS = mongoose.model("Songs", songsSchema);

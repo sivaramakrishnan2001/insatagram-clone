@@ -6,7 +6,7 @@ const DeviceSchema = new Schema({
         ref: "User"
     },
     devicetoken: String
-}, { timestamps: true });
+}, { timestamps: true ,suppressReservedWarning: true});
 
 
 export const DeviceToken = mongoose.model("device", DeviceSchema);

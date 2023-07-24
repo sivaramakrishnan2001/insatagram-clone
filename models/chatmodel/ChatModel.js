@@ -9,6 +9,6 @@ const chatSchema = new Schema({
     },
     lastMessage: String
 
-}, { timestamps: true });
+}, { timestamps: true ,suppressReservedWarning: true});
 
 export const ChatSchema = mongoose.model("Chat", chatSchema);
