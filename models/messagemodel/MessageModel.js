@@ -17,7 +17,7 @@ const messageSchema = new Schema(
         },
     },
     {
-        timestamps: true,suppressReservedWarning: true
+        timestamps: true,suppressReservedWarning: true, suppressReservedKeysWarning:true
     }
 );
 

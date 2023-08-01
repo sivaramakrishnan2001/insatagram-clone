@@ -1,5 +1,5 @@
 import express from "express";
-import { CreateReels, DeleteReels, GetAllReels, UpdateReels } from "../../controllers/reelscontroller/ReelsController.js";
+import { CreateReels, DeleteReels, GetAllReels, UpdateReels, CommentReels, LikeReels, UnLikeReels } from "../../controllers/reelscontroller/ReelsController.js";
 import { VerifyToken } from "../../config/VerifyToken.js";
 
 export const ReelsRouter = express.Router();
@@ -149,3 +149,7 @@ ReelsRouter.get("/post/getAllReels", GetAllReels);
 ReelsRouter.post("/post/createReels", VerifyToken, CreateReels);
 ReelsRouter.put("/post/updateReels", VerifyToken, UpdateReels);
 ReelsRouter.delete("/post/deleteReels", VerifyToken, DeleteReels);
+
+ReelsRouter.put('/post/likeReels', VerifyToken, LikeReels);
+ReelsRouter.put('/post/unlikeReels', VerifyToken, UnLikeReels);
+ReelsRouter.put('/post/commentReels', VerifyToken, CommentReels);

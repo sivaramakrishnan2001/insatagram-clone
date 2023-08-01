@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 export const DBConnection = async () => {
     try {
         mongoose.set('strictQuery', false);
-        let db = await mongoose.connect(process.env.DB1, {
+        await mongoose.connect(process.env.DB1, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         });

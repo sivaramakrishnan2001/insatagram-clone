@@ -24,7 +24,7 @@ const ConversationSchema = new Schema(
         messagecount: Number
     },
     {
-        timestamps: true,suppressReservedWarning: true
+        timestamps: true,suppressReservedWarning: true, suppressReservedKeysWarning:true
     }
 );
 

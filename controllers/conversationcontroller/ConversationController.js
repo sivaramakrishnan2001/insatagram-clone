@@ -1,6 +1,114 @@
 import { serverLog } from "../../common/common.js";
 import { Conversation } from "../../models/conversation/Conversation.js";
 
+
+
+export const CreateConversation = async (req, res) => {
+    const { conversationUserId } = req.body;
+    let id = JSON.parse(JSON.stringify(req.user))._id;
+
+
+
+    serverLog("conversationUserId", conversationUserId);
+    let obj = {
+        participants: [
+            {
+                user: id,
+                id: "user_id_1",
+            },
+            {
+                user: conversationUserId,
+                id: "user_id_2",
+            }
+        ],
+        lastmessage: {},
+        viewstatus: false,
+        messagecount: 0
+    };
+    console.log("obj=>>", obj);
+    try {
+
+        if (!id || !conversationUserId) {
+            return res.status(200).json({ status: false, data: {id,conversationUserId}, message:"conversationUserId id empty" });
+        }
+        // const conversation1 = await Conversation.find({ participants: { $in} })
+
+        const conversation1 = await Conversation.find().populate({
+            path: "participants", // populate blogs
+            populate: {
+                path: "user", // in blogs, populate comments
+                select: "-password -followers -following"
+            }
+        });
+
+        console.log("findIdValitation(conversation1, id)", findIdValitation(conversation1, id, conversationUserId));
+
+        if (findIdValitation(conversation1, id, conversationUserId) === false) {
+            console.log("statsus true.............");
+            const conversation = await new Conversation(obj).save();
+
+            console.log("conversation-------------->", conversation);
+            res.status(200).json({ status: true, data: {}, test: conversation });
+
+            // if (conversation._id) {
+            //     return res.status(200).json({ status: true, data: conversation });
+            // } else {
+            //     return res.status(200).json({ status: false, data: conversation, message: "error" });
+            // }
+        } else {
+            return res.status(200).json({ status: false, data: {}, message: "user alredy excit" });
+        }
+
+
+    } catch (err) {
+        res.status(200).json({ status: false, message: err });
+    }
+}
+
+
+export const GetConversation = async (req, res) => {
+    try {
+        console.log("---------=======>");
+        const list = await Conversation.find({}).populate({
+            path: "participants", // populate blogs
+            populate: {
+                path: "user", // in blogs, populate comments
+                select: "-password -followers -following"
+            }
+        });
+        // serverLog("69 conversation22", list);
+        res.status(200).json({ status: true, data: list });
+
+    } catch (err) {
+        res.status(200).json({ status: false, message: err });
+    }
+}
+
+export const GetAllConversation = async (req, res) => {
+    try {
+        console.log("sadasssssssssss=======>");
+        const list = await Conversation.find({});
+        // serverLog("69 conversation22", list);
+        res.status(200).json({ status: true, data: list });
+
+    } catch (err) {
+        res.status(200).json({ status: false, message: err });
+    }
+}
+
+export const DeleteAllConversation = async (req, res) => {
+    try {
+        const conversation = await Conversation.deleteMany();
+        serverLog("conversation", conversation);
+
+        res.status(200).json({ status: true, data: conversation });
+
+    } catch (err) {
+        res.status(200).json({ status: false, message: err });
+    }
+}
+
+
 const findIdValitation = (conversation1, userid, partnerid) => {
     console.log("conversation1", conversation1);
     let conversation = JSON.parse(JSON.stringify(conversation1));
@@ -46,111 +154,4 @@ const filterConversation = (conversation1, id) => {
     }
     console.log("list", list);
     return list;
-}
-
-
-export const CreateConversation = async (req, res) => {
-    const { conversationUserId } = req.body;
-    serverLog("conversationUserId", conversationUserId)
-    const participants = [
-        {
-            user: req.user,
-            id: "user_id_1",
-        },
-        {
-            user: conversationUserId,
-            id: "user_id_2",
-        }
-    ];
-
-    try {
-
-        let id = JSON.parse(JSON.stringify(req.user))._id;
-
-        // const conversation1 = await Conversation.find({ participants: { $in} })
-
-        const conversation1 = await Conversation.find().populate({
-            path: "participants", // populate blogs
-            populate: {
-                path: "user", // in blogs, populate comments
-                select: "-password -followers -following"
-            }
-        });
-
-        console.log("findIdValitation(conversation1, id)", findIdValitation(conversation1, id, conversationUserId));
-
-        if (!findIdValitation(conversation1, id, conversationUserId)) {
-            console.log("statsus true.............");
-            const conversation = new Conversation({
-                participants: participants,
-                lastmessage: {},
-                viewstatus: false,
-                messagecount: 0
-            }).save();
-            console.log("conversation-------------->",conversation);
-            if (conversation._id) {
-                return res.status(200).json({ status: true, data: conversation });
-            } else {
-                return res.status(200).json({ status: false, data: conversation, message: "error" });
-            }
-        } else {
-            return res.status(200).json({ status: false, data: {}, message: "user alredy excit" });
-        }
-
-
-    } catch (err) {
-        res.status(200).json({ status: false, message: err });
-    }
-}
-
-
-export const GetAllConversation = async (req, res) => {
-    try {
-        console.log("sadasssssssssss=======>");
-        const conversation = await Conversation.find();
-        serverLog("69 conversation22", conversation);
-        res.status(200).json({ status: true, data: conversation });
-
-    } catch (err) {
-        res.status(200).json({ status: false, message: err });
-    }
-}
-
-export const DeleteAllConversation = async (req, res) => {
-    try {
-        const conversation = await Conversation.deleteMany();
-        serverLog("conversation", conversation);
-
-        res.status(200).json({ status: true, data: conversation });
-
-    } catch (err) {
-        res.status(200).json({ status: false, message: err });
-    }
-}
-
-
-
-export const GetConversation = async (req, res) => {
-    try {
-        console.log("?????????????=======>");
-        const conversation = await Conversation.find().populate({
-            path: "participants", // populate blogs
-            populate: {
-                path: "user", // in blogs, populate comments
-                select: "-password -followers -following"
-            }
-        });
-
-        let list = conversation.filter((i) => {
-
-        })
-        // const conversation = await Conversation.find();
-        // serverLog("conversation22", conversation);
-        // res.status(200).json({ status: true, data: conversation });
-
-        // res.status(200).json({ status: true, data: list });
-
-    } catch (err) {
-        res.status(200).json({ status: false, message: err });
-    }
 }

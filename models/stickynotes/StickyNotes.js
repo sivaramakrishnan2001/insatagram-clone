@@ -11,7 +11,7 @@ const stickyNotesSchema = new Schema({
         ref: "User"
     },
 
-}, { timestamps: true, supressReservedKeysWarning: true });
+}, { timestamps: true, supressReservedKeysWarning: true, suppressReservedKeysWarning:true });
 
 
 export const StickyNotes = mongoose.model("StickyNotes", stickyNotesSchema);

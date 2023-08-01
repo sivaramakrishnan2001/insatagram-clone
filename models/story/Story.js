@@ -22,7 +22,7 @@ const StorySchema = new Schema({
             ref: "User"
         }
     ],
-}, { timestamps: true ,suppressReservedWarning: true});
+}, { timestamps: true ,suppressReservedWarning: true, suppressReservedKeysWarning:true});
 
 
 export const STORY = mongoose.model("Story", StorySchema);

@@ -2,6 +2,7 @@ import express from "express";
 // import { VerifyToken } from "../../config/VerifyToken.js";
 // import { createMessage, getMessages } from "../../controllers/messagecontroller/MessageController.js";
 import { DeleteAllMessages, GetConversationAllMessages, createMessage, getAllMessages } from "../../controllers/messagecontroller/Message.js";
+import { VerifyToken } from "../../config/VerifyToken.js";
 export const MessageRouter = express.Router();
 
 // ==================================================================
@@ -122,9 +123,9 @@ export const MessageRouter = express.Router();
 // ==================================================================
 
 MessageRouter.get('/getAllMessages', getAllMessages);
-MessageRouter.post('/user/createMessages', createMessage);
-MessageRouter.get('/user/getConversationMessages/:conversationId', GetConversationAllMessages);
-MessageRouter.delete('/deleteAllMessages', DeleteAllMessages);
+MessageRouter.post('/user/createMessages', VerifyToken, createMessage);
+MessageRouter.get('/user/getConversationMessages/:conversationId', VerifyToken, GetConversationAllMessages);
+MessageRouter.delete('/deleteAllMessages', VerifyToken, DeleteAllMessages);
 
 
 

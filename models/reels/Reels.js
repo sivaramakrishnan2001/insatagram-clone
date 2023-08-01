@@ -1,11 +1,17 @@
 import mongoose, { Schema } from "mongoose";
 
 const ReelsSchema = new Schema({
+    title: String,
     url: String,
     desc: String,
-    song: {},
+    song: Object,
     location: String,
-    filename:String,
+    type: String,
+    filename: String,
+    postedBy: {
+        type: Schema.Types.ObjectId,
+        ref: "User"
+    },
     save: [
         {
             type: Schema.Types.ObjectId,
@@ -18,10 +24,6 @@ const ReelsSchema = new Schema({
             ref: "User"
         }
     ],
-    postedBy: {
-        type: Schema.Types.ObjectId,
-        ref: "User"
-    },
     comments: [
         {
             text: String,
@@ -31,7 +33,7 @@ const ReelsSchema = new Schema({
             }
         }
     ],
-}, { timestamps:true ,suppressReservedWarning: true});
+}, { timestamps: true, suppressReservedWarning: true, suppressReservedKeysWarning: true });
 
 
 export const REELS = mongoose.model("Reels", ReelsSchema);

@@ -5,23 +5,16 @@ const messageSchema = new Schema(
     {
         sender: {
             type: Schema.Types.ObjectId,
-            ref:"User"
+            ref: "User"
         },
         conversation: {
             type: Schema.Types.ObjectId,
-            ref:"Conversation"
+            ref: "Conversation"
         },
-        content: {
-            text: String,
-            imgUrl: String,
-            videoUrl: String,
-            file: String,
-            filename: String,
-            type: String,
-        },
+        content: Object,
     },
     {
-        timestamps: true,suppressReservedWarning: true
+        timestamps: true, suppressReservedWarning: true, suppressReservedKeysWarning: true
     }
 );
 

@@ -5,24 +5,27 @@ import { POST } from "../../models/Post.js";
 
 export const CreatePost = async (req, res) => {
     const { photo, body, title, song, location, type, filename, video } = req.body;
+    let id = JSON.parse(JSON.stringify(req.user))._id;
+
+    console.log("photo, body, title, song, location, type, filename, video id", photo, body, title, song, location, type, filename, video, id);
 
     try {
-        serverLog("CreatePost",{ photo, body, title, song, location, type, filename, video });
 
         const post = await POST.create({
             title: title,
             body: body,
             photo: photo,
             video: video,
-            filename: filename,
             type: type,
+            filename: filename,
             song: song,
             location: location,
             save: [],
             likes: [],
-            comments: [],
-            postedBy: req.user
+            postedBy: id,
+            comments: []
         });
+        console.log("post----->", post);
 
         if (post) {
             res.status(200).send({ status: true, data: post });
@@ -37,7 +40,14 @@ export const GetAllPost = async (req, res) => {
     try {
         const posts = await POST.find()
             .populate("postedBy", "_id name email profile followers following profile")
-            .populate("comments.postedBy", "_id name email profile followers following profile")
+            .populate({
+                path: "comments",
+                select: "-password",
+                populate: {
+                    path: "postedBy",
+                    select: "-password -followers -following -subscribers"
+                }
+            })
             .populate({
                 path: "likes",
                 select: "-password",
@@ -47,7 +57,7 @@ export const GetAllPost = async (req, res) => {
                 }
             })
             .sort('-createdAt');
-            serverLog("posts",posts);
+        serverLog("posts", posts);
 
         res.status(200).json({ data: posts, status: true });
 
@@ -74,7 +84,7 @@ export const GetUserPost = async (req, res) => {
 
 
 export const Like = async (req, res) => {
-    serverLog("req.body.postid",req.body.postid);
+    serverLog("req.body.postid", req.body.postid);
 
     try {
         const post = await POST.findByIdAndUpdate({ _id: req.body.postid },

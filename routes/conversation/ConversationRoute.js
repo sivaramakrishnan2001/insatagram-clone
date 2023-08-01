@@ -78,10 +78,10 @@ export const ConversationRouter = express.Router();
 
 /**
  * @swagger
- * /user/getAllConversation:
+ * /user/GetConversation:
  *   get:
- *     summary: user/getAllConversation
- *     description: getAllConversation
+ *     summary: user GetConversation
+ *     description: user GetConversation
  *     tags: [REALTIME Chat API]
  *     parameters:
  *       - in: header
@@ -100,7 +100,7 @@ export const ConversationRouter = express.Router();
 // ==================================================================
 
 ConversationRouter.get('/getAllConversation', GetAllConversation);
-ConversationRouter.get('/user/AllConversation', VerifyToken, GetConversation)
+ConversationRouter.get('/user/Conversation/getAll', VerifyToken, GetConversation)
 ConversationRouter.delete('/deleteAllConversation', DeleteAllConversation);
 ConversationRouter.post('/user/createConversation', VerifyToken, CreateConversation);
 
