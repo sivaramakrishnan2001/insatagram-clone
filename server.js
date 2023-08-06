@@ -93,8 +93,8 @@ const swaggerDefinition = {
         version: '1.0.0',
         description: '',
     },
-    // host: process.env.HOST,
-    host: `localhost:${process.env.PORT ? process.env.PORT : 2000}`,
+    host: process.env.HOST,
+    // host: `localhost:${process.env.PORT ? process.env.PORT : 2000}`,
     basePath: '/',
     // securityDefinitions: {
     //     // bearerAuth: {
