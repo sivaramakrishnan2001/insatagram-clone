@@ -25,7 +25,7 @@ export const createMessage = async (req, res) => {
         const chat = new Message({
             sender: senderid,
             conversation: conversationid,
-            content: obj
+            content: obj,
         });
 
         await chat.save();
@@ -46,21 +46,41 @@ export const GetConversationAllMessages = async (req, res) => {
     const { conversationId } = req.params;
     let senderid = JSON.parse(JSON.stringify(req.user))?._id;
 
-    try {
-        const messages = await Message.find({ conversation: conversationId }).populate('sender', '-password').populate("conversation");
+    console.log("conversationId>>>>>>>>>", conversationId);
 
-        let isNew = messages.map((row) => {
-            return {
-                text: row.content.text,
-                imgUrl: row.content.imgUrl,
-                videoUrl: row.content.videoUrl,
-                file: row.content.file,
-                filename: row.content.filename,
-                type: row.content.type,
-                sender: row.sender
-            }
-        })
-        res.status(200).json({ status: true, data: messages, isNew });
+    try {
+        const messages = await Message.find({ conversation: conversationId })
+            .populate("conversation")
+            .populate('sender', '-password')
+            .populate('post')
+            .populate({
+                path: 'reels',
+                populate: {
+                    path: 'comments',
+                    populate: {
+                        path: 'postedBy',
+                    }
+                }
+            })
+
+
+        // let isNew = messages.map((row) => {
+
+        //     return {
+        //         text: row.content.text || "",
+        //         imgUrl: row.content.imgUrl || "",
+        //         videoUrl: row.content.videoUrl || "",
+        //         file: row.content.file || "",
+        //         filename: row.content.filename || "",
+        //         type: row.content.type || "",
+        //         sender: row.sender || ""
+        //     }
+        // });
+
+        // console.log("isNew", isNew);
+
+
+        res.status(200).json({ status: true, data: messages, });
     } catch (err) {
         res.status(500).send({ status: false, message: err });
     }
@@ -85,4 +105,91 @@ export const DeleteAllMessages = async (req, res) => {
         res.status(500).send({ status: false, message: err });
     }
 }
+
+export const SendReels = async (req, res) => {
+    const { conversationid, reelsid } = req.body;
+    let senderid = JSON.parse(JSON.stringify(req.user))?._id;
+
+    try {
+        console.log("conversationid", conversationid);
+        console.log("senderid", senderid);
+        console.log("reelsid", reelsid);
+
+        console.log("req.body", req.body);
+
+        if (!senderid) {
+            return res.status(200).json({ status: false, data: {}, message: "senderid empty value" });
+        }
+
+        if (!conversationid) {
+            return res.status(200).json({ status: false, data: {}, message: "conversationid empty value", error: conversationid });
+        }
+
+        if (!reelsid) {
+            return res.status(200).json({ status: false, data: {}, message: "reelsid empty value" });
+        }
+
+
+
+
+        const chat = new Message({
+            sender: senderid,
+            conversation: conversationid,
+            content: {},
+            reels: reelsid,
+        })
+
+        await chat.save();
+
+        if (!chat) {
+            return res.status(200).json({ status: false, data: chat, message: "technical error" });
+        }
+
+        res.status(200).json({ status: true, data: chat });
+
+
+    } catch (err) {
+        res.status(500).send({ status: false, message: err, error: "technical error" });
+    }
+}
+
+
+export const SendPost = async (req, res) => {
+    const { conversationid, postid } = req.body || req.query || req.params;
+    let senderid = JSON.parse(JSON.stringify(req.user))?._id;
+
+    try {
+
+        if (!senderid) {
+            return res.status(200).json({ status: false, data: {}, message: "senderid empty value" });
+        }
+
+        if (!conversationid) {
+            return res.status(200).json({ status: false, data: {}, message: "conversationid empty value" });
+        }
+
+        if (!postid) {
+            return res.status(200).json({ status: false, data: {}, message: "postid empty value" });
+        }
+
+        const chat = await new Message({
+            sender: senderid,
+            conversation: conversationid,
+            content: {},
+            reels: {},
+            post: postid,
+        }).save();
+
+        if (!chat) {
+            return res.status(200).json({ status: false, data: chat, message: "technical error" });
+        }
+
+        res.status(200).json({ status: true, data: chat });
+
+
+    } catch (err) {
+        res.status(500).send({ status: false, message: err, error: "technical error" });
+    }
+}
+
 

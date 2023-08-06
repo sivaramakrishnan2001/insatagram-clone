@@ -2,7 +2,7 @@ import { serverLog } from "../../common/common.js";
 import { REELS } from "../../models/reels/Reels.js";
 
 export const CreateReels = async (req, res) => {
-    const { title,url, desc, song, location ,filename, type} = req.body;
+    const { title, url, desc, song, location, filename, type } = req.body;
     let id = JSON.parse(JSON.stringify(req.user))?._id;
     serverLog("CreateReels", { url, desc, song, location, id, title });
     try {
@@ -15,9 +15,10 @@ export const CreateReels = async (req, res) => {
             desc: desc,
             song: song,
             location: location,
-            type:type,
-            filename:filename,
+            type: type,
+            filename: filename,
             postedBy: id,
+            shares: [],
             save: [],
             likes: [],
             comments: []
@@ -139,22 +140,22 @@ export const UnLikeReels = async (req, res) => {
 
 export const CommentReels = async (req, res) => {
 
-    const { postid, text } = req.body;
+    const { reelsid, text } = req.body;
     const data = { text: text, postedBy: req.user._id };
 
     try {
-        if (!postid) {
+        if (!reelsid) {
             return res.status(200).json({ status: false, message: "post id empty value", data: {} });
         }
         if (!data.text) {
             return res.status(200).json({ status: false, message: "text empty value", data: {} });
         }
-        if (data.postedBy) {
+        if (!data.postedBy) {
             return res.status(200).json({ status: false, message: "invalid token || token empty value", data: {} });
         }
 
         const comment = await REELS.findByIdAndUpdate(
-            { _id: postid },
+            { _id: reelsid },
             { $push: { comments: data } },
             { new: true, upsert: true }
         )

@@ -12,6 +12,12 @@ const ReelsSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: "User"
     },
+    shares: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: "User"
+        }
+    ],
     save: [
         {
             type: Schema.Types.ObjectId,

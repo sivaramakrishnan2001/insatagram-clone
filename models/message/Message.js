@@ -12,6 +12,14 @@ const messageSchema = new Schema(
             ref: "Conversation"
         },
         content: Object,
+        reels: {
+            type: Schema.Types.ObjectId,
+            ref: "Reels"
+        },
+        post: {
+            type: Schema.Types.ObjectId,
+            ref: "Post"
+        }
     },
     {
         timestamps: true, suppressReservedWarning: true, suppressReservedKeysWarning: true
