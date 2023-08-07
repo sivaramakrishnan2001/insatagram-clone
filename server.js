@@ -31,7 +31,10 @@ const app = express();
 // ==================================================================
 // middleware
 
-app.use(cors());
+app.use(cors({
+    origin: [process.env.URL],
+    credentials: true
+}));
 app.use(express.json());
 app.use(bodyParser.json({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
