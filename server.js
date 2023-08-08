@@ -31,14 +31,16 @@ const app = express();
 // ==================================================================
 // middleware
 
+app.use(cors());
+
 app.use(cors({
-    origin: [process.env.URL],
+    origin: [process.env.URL, process.env.local, process.env.web],
     credentials: true
 }));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(bodyParser.json({ extended: true }));
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.urlencoded({ extended: true }));
 
 // ==================================================================
 
